@@ -19,8 +19,8 @@ ANNs are loosely based on the function of biological neurons. In biology, neuron
 
 Consider data set $X \in \mathbb{R}^{m\times n} $ composed of m observations on n variables, where the $i$th observation is $x_i = (x_1,x_2,...,x_n)$. The computation in a single node of a neural network is simply the linear combination of vector $x_i$ with respective weights $w_i = (w_1,w_2,...,w_n)$ and an added bias term $b$:
 
-    \begin{equation}
+    \begin{equation} \label{eq:lincomb}
         z = b + \sum_{i=1}^{n}  a_i w_i
     \end{equation}
 
-The linear combination is then transformed by applying a nonlinear function $g(z)$, referred to as the activation function (which maps the weighted inputs to the scalar output of the node). This simple computation within a single node is the basic building block of a MLP. MLPs contain at least two layers of these processing nodes (hidden and output layers), along with an input layer for training data. The hidden and output layers contain parallel processing nodes, each receiving input from the previous layer.
+The linear combination is then transformed by applying a nonlinear activation function $g(z)$, which maps the weighted inputs to the scalar output of the node. This simple computation within a single node is the basic building block of a MLP. MLPs contain at least two layers of these processing nodes (hidden and output layers), along with an input layer for training data. The hidden and output layers contain parallel processing nodes, each receiving input from the previous layer. This cascade of information from the input layer towards the output layer is why MLPs are classically defined as feed forward neural networks. 
