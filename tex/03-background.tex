@@ -24,3 +24,32 @@ Consider data set $X \in \mathbb{R}^{m\times n} $ composed of m observations on 
     \end{equation}
 
 The linear combination is then transformed by applying a nonlinear activation function $g(z)$, which maps the weighted inputs to the scalar output of the node. This simple computation within a single node is the basic building block of a MLP. MLPs contain at least two layers of these processing nodes (hidden and output layers), along with an input layer for training data. The hidden and output layers contain parallel processing nodes, each receiving input from the previous layer. This cascade of information from the input layer towards the output layer is why MLPs are classically defined as feed forward neural networks. 
+
+    \begin{figure}[h!]
+        \centering
+        \begin{subfigure}{\linewidth}
+            \centering
+        	\includegraphics[width=.55\linewidth, height = 5cm]{img/mlp.png}\label{fig:nonlinearsep}\hfill
+        	\includegraphics[width=.4\linewidth, height = 5cm]{img/actfunc.png}\label{fig:linearsep}
+        \end{subfigure}
+        
+        \caption{The original data (left) is not linearly separable, that is, there does not exists a hyperplane capable of
+            separating the red curve from the blue curve. The transformation $h = \sigma(Wx + b)$ project the input x into a new space
+        (right) where it's easy to find a separating hyperplane. Images taken from: \url{http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/}}\label{fig:linear-layer-viz}
+	\end{figure}
+	
+	\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.55\textwidth}
+        \includegraphics[height = 6cm, width=\textwidth]{img/mlp.png}
+        \caption{Feed Forward Multilayer Perceptron}
+        \label{fig:mlp}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.44\textwidth}
+        \includegraphics[height = 6.5cm, width=\textwidth]{img/actfunc.png}
+        \caption{Common Activation Functions, $\psi$}
+        \label{fig:tiger}
+    \end{subfigure}
+    \caption{Pictures of animals}\label{fig:animals}
+\end{figure}
