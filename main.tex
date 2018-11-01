@@ -1,4 +1,4 @@
-\documentclass[12pt]{report}
+\documentclass[12pt, twoside]{report}
 
 %Packages and Dependencies
 \usepackage[utf8]{inputenc}
@@ -8,7 +8,7 @@
 
 \title{Multi-Platform Genomic and Clinical Data Fusion with Integrative Deep Learning (DRAFT)}
 \author{Olatunji Oni}
-\date{\today}
+\date{October 31, 2018}
 
 \begin{document}
 
@@ -21,9 +21,11 @@
 
 \frontmatter{}
     \tableofcontents
+    \listoffigures
+    \include{tex/01-glossary}
 
 \mainmatter{}
-    \include{./tex/03-background}
+    \include{./tex/04-background}
     
 \backmatter{}
     \printbibliography
