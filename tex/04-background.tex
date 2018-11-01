@@ -7,14 +7,11 @@ The background material in this chapter provides an overview of the theoretical 
 
 Early attempts in designing computational systems to exhibit intelligent behaviour were conducted through formal rule-based programs referred to as Expert Systems~\cite{weiss1991computer}. In these systems, inference engines were used to apply a knowledge base of curated rules to deduce new rules and make predictions on future behaviour. It soon became evident that the sheer number of hard-coded rules required to simulate predictive behaviour was several orders of magnitude higher then capable to store or write for even moderately complicated tasks. This resulted in a shift from rigid and deductive systems towards inductive systems that learn to extract information from observed data. 
 
-%Interesting and complex phenomenon (or behaviour) in nature are often fundamentally nonlinear  - can use this sentence to link expert systems to seeking solutions to nonlinear equations.
- 
-%Prior to the emergence of neural networks, 
 Naturally, complex phenomena generally have dynamic correlations and nonlinear relationships. Accordingly, various techniques were developed to elucidate nonlinear relationships and emulate intelligent behaviour from observed training data. For instance, in statistics, parametric models were developed so data could be described using finite-dimensional classes of nonlinear functions such as exponential, polynomial or power functions. However, these kinds of finite-dimensional models are limited in application to data adequately described by a bounded array of parametric functions. An additional approach, kernel methods, are based on non-linear projections of observed data into a latent space that can measure the distance between observations. New regression values or classifications are then predicted based on distances in the latent space. Unfortunately, the construction of the kernel matrix in kernel-based methods becomes oppressive as the size of the data set increases, rendering these algorithms unfeasible for large data sets. Another class of models, ANNs, were discovered to elucidate many of the concerns of prior nonlinear models. ANNs thrive with large data sets and can learn to approximate any nonlinear function.
 
 ANNs are loosely based on the function of biological neurons. In biology, neurons facilitate the flow of nerve impulses through networks that process and transmit information. The processing of inputs and outputs in neural structures allows biological neurons to adaptively learn and react based on previously observed patterns. ANNs implement this idea mathematically allowing them to act as nonlinear universal approximators. They perform this task by aggregating a cascade of simple nonlinear computations to form robust and complex nonlinear functions. Recently, ANNs have been particularly successful at solving large fundamental problems in natural language processing, voice recognition, and image classification~\cite{collobert2011natural, hinton2012deep, cirecsan2012multi}. 
 
-\subsection{Mulitilayer Perceptron}
+\subsection{The Mulitilayer Perceptron}
 
 The simplest form of an multilayer perceptron (MLP) is a feed forward and fully connected network with a single hidden layer, as shown in Figure \ref{fig:mlp}. A supervised learning problem for an MLP involves approximating a nonlinear function $f(x)$. The problem is considered supervised because each training example is associated with a label $y$. Consider data set $X \in \mathbb{R}^{m\times n} $ composed of m observations on n variables, where the $i$th observation is $x_i = (x_1,x_2,...,x_n)$. The computation in a single node of a neural network is simply the linear combination of vector $x_i$ with respective weights $\theta_i = (\theta_1,\theta_2,...,\theta_n)$ and an added bias term $b$:
 
@@ -99,6 +96,12 @@ Where $\alpha$, the learning rate, controls the size of steps made in the direct
 
 %%The cost function, as one large nested composite function, contains all of the computations in the neural network. 
 
+\section{Deep Learning} \label{sec:deeplearning}
+
+\subsection{Deep Neural Networks}
+
+%Explain what deep learning is, why it is used (representation learning)
+
 \subsection{Autoencoders}
 
 %This continues to the stacked denoising variant
@@ -130,3 +133,23 @@ Furthermore, deeper frameworks of denoising autoencoders, called stacked denoisi
 
 % Add figures for stacked denoising autoencoder
 % Add figure for variational autoencoder
+
+%\subsubsection{Variational Autoencoders}
+
+\section{Improving Machine Learning Models}
+
+\subsection{Regularization}
+%Talk about overfitting
+%Regularization
+
+\subsection{Model Averaging}
+%Model Averaging - dropout and maxout model
+
+\section{Information Fusion}
+
+\subsection{Mixture of Experts}
+
+\subsection{Gated Multimodal Units}
+
+
+
