@@ -5,7 +5,16 @@ In this chapter we propose a novel multimodal fusion approach to integrate infor
 
 \section{Architecture}
 
-The architecture of a dGMU first contains multiplicative gates designed to construct an intermediate representation of data from multiple modalities. The input modalities along with the intermediate representation are then fed to a decision network that fuses the predictions using an additional internal gate. This structure is illustrated in Figure \hl{BLANK}. The connection between the internal representation and decision networks are governed by the following equations:
+The architecture of a dGMU first contains multiplicative gates designed to construct an intermediate representation of data from multiple modalities. The input modalities along with the intermediate representation are then fed to a decision network that fuses the predictions using an additional internal gate. This structure is illustrated in Figure \hl{BLANK}. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/dGMU.png}
+    \caption{Feedforward and Backpropagation Schematic.}
+    \label{fig:backprop}
+\end{figure}
+
+The connection between the internal representation and decision networks are governed by the following equations:
 %Internal gating neuron
 %representation network
 %decision network
