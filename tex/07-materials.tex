@@ -1,0 +1,106 @@
+\chapter{Materials and Methods} \label{chap:experiments}
+
+\section{Genomic Data Preprocessing}
+
+In this report, all genomic data was acquired from the National Cancer Institutes (NCI) genomic data portal \cite{grossman2016toward}. Healthy and tumorous cell mass rna expresssion, miRNA expression, copy number variation, and simple nucleotide variation data was acquired for nine different forms of cancer and solid tissue normal (STN) samples. The nine cancer types included were head and neck squamous cell carcinoma (HNSC), kidney renal clear cell carcinoma (KIRC), kidney renal papillary (KIRP), liver hepatocellular carcinoma (LIHC), lung adenocarcinoma (LUAD), lung squamous cell carcinoma (LUSC), prostate adenocarcinoma (PRAD), thyroid carcinoma (THCA). The following subsections detail the preprocessing steps required to transform and extract features from the raw genomic data.
+
+\subsection{Copy Number Variation}
+
+The copy number variation (CNV) data was derived from somatic and germline genotyping array (Affymetric Genome-Wide Human SNP Array 6.0). The raw CNV data is given as segmented genomic regions that have the same DNA copy number. This form provides the number of bound probes and the binary logarithm of the mean intensity (segmented mean) for each segmented genomic region as shown in Table \ref{table:rawcnv}.
+
+\begin{table}[ht]
+\caption{Raw CNV Data from Genome Wide SNP Segmentation} % title of Table
+\centering % used for centering table
+\resizebox{\textwidth}{!}{% % force table to text width
+\begin{tabular}{l l l l l l} % centered columns (4 columns)
+\hline %inserts single horizontal lines
+GDC Aliquot $^a$ & Chr & Start & End & Probes & Segment Mean\\ %[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+% inserting body of the table
+00e5b006-6afc-4ea4-90e3-f29741560020 & 1 & 62920 & 814954 & 31 & 0.4742\\
+00e5b006-6afc-4ea4-90e3-f29741560020 & 1 & 817186 & 3303537 & 710 & -0.0539\\
+00e5b006-6afc-4ea4-90e3-f29741560020 & 1 & 3303596 & 16477281 & 7873 & 0.0117\\
+00e5b006-6afc-4ea4-90e3-f29741560020 & 1 & 16477846 & 16935737 & 127 & 0.3408\\
+00e5b006-6afc-4ea4-90e3-f29741560020 & 1 & 16935752 & 30261189 & 7664 & 0.0229\\
+% [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}}
+\raggedright
+\footnotesize{$^a$ Aliquot cooresponds to KIRC primary tumour UUID 0063a6fa-9ebd-4b71-83c0-aeb17b97eb6.}
+
+\label{table:rawcnv}
+\end{table}
+
+
+\noindent
+In order to extract features that can be shared between all ten cell mass types, the chromosomal regions were mapped to genes. Using the BioMart community portal we acquired the start and end positions of every gene in the human genome assembly GRCh38 (hg38) \cite{smedley2015biomart}. The human genes were then mapped to the CNV regions for each sample type. An example of the resulting process is shown in Table \ref{table:mapgene}.
+
+\begin{table}[ht]
+\caption{Significant CNV Abberations Mapped to Gene Ensembl ID in KIRC} % title of Table
+\centering % used for centering table
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l l l l l l} % centered columns (4 columns)
+\hline %inserts single horizontal lines
+Ensembl ID & Chr & Abberration & Segment Mean & CNV Region & Gene Region\\ %[0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+% inserting body of the table
+ENSG00000237763 & 1 & DEL & -1.361 & 103620877-103717410 & 103655290-103664554\\
+ENSG00000244057 & 1 & DEL & -1.9195 & 152583230-152613762 & 152600662-152601086\\
+ENSG00000198502 & 6 & DUP & 1.9859 & 32488906-32533522 & 32517343-32530287 \\ 
+ENSG00000264892  & 17 & DEL & -2.8409 & 16806233-16815664 & 16812447-16812651\\
+ENSG00000279442 & 22 & DUP & 2.0311 & 15294547-15315221 & 15298378-15304556\\ 
+% [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}}
+\label{table:mapgene}
+\end{table}
+
+% GeneSymbol
+% N/A
+% AMY1A
+% LCE3C
+% HLA-DRB5
+% NOS2P4
+%Extra, just in case the Ensembl IDs dont fit
+%TRGV4: ENSG00000211698 & 7 & DEL & -2.0425 & 38351764-38356875 & 38353715-38354517
+
+\noindent
+For the $i$-th cell mass, a set of $g_i$ genes were mapped to aberrant regions within the genome. The set of common genes between all cell mass types were defined as:
+
+\begin{equation}
+    g = g_i \cap g_{i+1} \;\;\; \mbox{for} \;\;\; i = 1,\ldots,n
+\end{equation}
+
+\noindent
+Where $n$ is the number of cell mass samples. As a result, the CNV data contained the segmented mean of 11479 genes for each cell mass sample, resulting in a processed data matrix $C \in {\rm I\!R}^{11479 \; x \; n}$.
+
+\subsection{miRNA Expression}
+
+The miRNA sequence expression (miRNA-seq) is a form of transcriptome profiling which provides miRNA molecule quantification. The miRNA-seq data used in this study was derived using the BCGSC miRNA profiling pipeline \cite{chu2015large}. Accordingly, the miRNA-seq expression data contained the normalized expression counts of 1881 miRNA molecules.
+
+\subsection{RNA Expression}
+
+RNA sequence expression (RNA-seq) is a form of transcriptome profiling which provides gene expression quantification. The RNA-seq data used in this study was derived from HTSeq-Counts framework \cite{anders2015htseq}. Accordingly, the RNA-seq expression data contained the normalized expression counts of 60484 genes.
+
+\subsection{Simple Nucleotide Variation}
+
+\subsubsection{Preprocessing}
+
+The simple nucleotide variation (SNV) data was obtained in the form of masked somatic mutations, derived from a MuTect2 Variant Aggregation and Masking workflow \cite{cibulskis2013sensitive}. 
+
+In this study, the analysis of the raw SNV data was based on the variant occurrence frequency of the genetic data. Variation occurence was mapped to every listed gene for all available cell samples. This was performed by mapping mutated genes to cell sample IDs in the raw SNV data, and accumulating the number of mutations for each respective cell sample.
+
+\subsubsection{Dataset}
+
+$S \in \mathbb{Z}_{\geq 0}$
+In order to obtain variant occurrence frequency, the number of all mutations, for every cell sample, was recorded.
+
+\section{Dimensionality Reduction}
+
+\subsection{Stacked Denoising Autoencoder}
+
+\subsection{Deeply Connected Genes}
+
+\subsection{Differential Expression}
