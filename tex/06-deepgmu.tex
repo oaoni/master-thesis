@@ -59,7 +59,7 @@ The dGMU model parameters were learned with batch stochastic gradient descent wi
 
 \section{Implementation}
 
-The dGMU model was implemented with original code in Tensorflow on an Nvidia Tesla K80 GPU. With a high level of parallization and batch training used during pretraining and finetuning, the model training takes a few minutes, and validation and testing is conducted in a matter of seconds.
+The dGMU model was implemented with original code in Tensorflow (1.11.0) on an Nvidia Tesla K80 GPU. With a high level of parallization and batch training used during pretraining and finetuning, the model training takes a few minutes, and validation and testing is conducted in a matter of seconds.
 
 The dGMU model benefits from the modularity of gated multimodal units. Accordingly, this architecture can be adapted using varying models for each modality depending on the application. As well, the decision network can be modified to accept inputs from more than two modalities while only resulting in a linear increase in the number of training weights.
 

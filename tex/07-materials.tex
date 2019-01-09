@@ -2,9 +2,11 @@
 
 \section{Genomic Data Preprocessing}
 
-In this report, all genomic data was acquired from the National Cancer Institutes (NCI) genomic data portal \cite{grossman2016toward}. Healthy and tumorous cell mass rna expresssion, miRNA expression, copy number variation, and simple nucleotide variation data was acquired for nine different forms of cancer and solid tissue normal (STN) samples. The nine cancer types included were head and neck squamous cell carcinoma (HNSC), kidney renal clear cell carcinoma (KIRC), kidney renal papillary (KIRP), liver hepatocellular carcinoma (LIHC), lung adenocarcinoma (LUAD), lung squamous cell carcinoma (LUSC), prostate adenocarcinoma (PRAD), thyroid carcinoma (THCA). The following subsections detail the preprocessing steps required to transform and extract features from the raw genomic data.
+In this report, all genomic data was acquired from the National Cancer Institutes (NCI) genomic data portal \cite{grossman2016toward}. Healthy and tumorous cell mass RNA expresssion, microRNA expression, copy number variation, and simple nucleotide variation data was acquired for nine different forms of cancer and solid tissue normal (STN) samples. The nine cancer types included were head and neck squamous cell carcinoma (HNSC), kidney renal clear cell carcinoma (KIRC), kidney renal papillary (KIRP), liver hepatocellular carcinoma (LIHC), lung adenocarcinoma (LUAD), lung squamous cell carcinoma (LUSC), prostate adenocarcinoma (PRAD), thyroid carcinoma (THCA). The following subsections detail the preprocessing steps required to transform and extract features from the raw genomic data.
 
 \subsection{Copy Number Variation}
+
+\subsubsection{Preprocessing}
 
 The copy number variation (CNV) data was derived from somatic and germline genotyping array (Affymetric Genome-Wide Human SNP Array 6.0). The raw CNV data is given as segmented genomic regions that have the same DNA copy number. This form provides the number of bound probes and the binary logarithm of the mean intensity (segmented mean) for each segmented genomic region as shown in Table \ref{table:rawcnv}.
 
@@ -66,7 +68,8 @@ ENSG00000279442 & 22 & DUP & 2.0311 & 15294547-15315221 & 15298378-15304556\\
 %Extra, just in case the Ensembl IDs dont fit
 %TRGV4: ENSG00000211698 & 7 & DEL & -2.0425 & 38351764-38356875 & 38353715-38354517
 
-\noindent
+\subsubsection{Dataset}
+
 For the $i$-th cell mass, a set of $g_i$ genes were mapped to aberrant regions within the genome. The set of common genes between all cell mass types were defined as:
 
 \begin{equation}
@@ -76,13 +79,25 @@ For the $i$-th cell mass, a set of $g_i$ genes were mapped to aberrant regions w
 \noindent
 Where $n$ is the number of cell mass samples. As a result, the CNV data contained the segmented mean of 11479 genes for each cell mass sample, resulting in a processed data matrix $C \in {\rm I\!R}^{11479 \; x \; n}$.
 
-\subsection{miRNA Expression}
+\subsection{Transcriptome Expression}
 
-The miRNA sequence expression (miRNA-seq) is a form of transcriptome profiling which provides miRNA molecule quantification. The miRNA-seq data used in this study was derived using the BCGSC miRNA profiling pipeline \cite{chu2015large}. Accordingly, the miRNA-seq expression data contained the normalized expression counts of 1881 miRNA molecules.
+\subsubsection{Preprocessing}
 
-\subsection{RNA Expression}
+This study utilized RNA sequence (RNA-seq), and microRNA sequence (miRNA-seq) transcriptome expression profiling. MiRNA-seq is a form of transcriptome profiling that provides miRNA molecule quantification. The miRNA-seq data used in this study was derived using the BCGSC miRNA profiling pipeline \cite{chu2015large}. Furthermore, RNA-seq is a form of transcriptome profiling that provides gene expression quantification. The RNA-seq data used in this study was derived from HTSeq-Counts framework \cite{anders2015htseq}.
 
-RNA sequence expression (RNA-seq) is a form of transcriptome profiling which provides gene expression quantification. The RNA-seq data used in this study was derived from HTSeq-Counts framework \cite{anders2015htseq}. Accordingly, the RNA-seq expression data contained the normalized expression counts of 60484 genes.
+All expression profiles were organized in relation to cancer subclass, individual case ID, and sequence ID. An example of this is shown in Figure \ref{fig:expmirna}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/expmirna.png}
+    \noindent
+    \caption{Normalized miRNA expression profiles.}
+    \label{fig:expmirna}
+\end{figure}
+
+\subsubsection{Dataset}
+
+The expression profiles of the transcriptome expression data had the input feature dimensionality of all assayed genes and miRNA molecules. The miRNA-seq expression data contained the normalized expression counts of 1881 miRNA molecules, while the RNA-seq expression data contained the normalized expression counts of 60484 genes. As a result, the processed miRNA-seq data produced data matrix $M \in {\rm I\!R}^{1881 \; x \; n}$, and the processed RNA-seq data produced data matrix $R \in {\rm I\!R}^{60484 \; x \; n}$.
 
 \subsection{Simple Nucleotide Variation}
 
@@ -90,17 +105,98 @@ RNA sequence expression (RNA-seq) is a form of transcriptome profiling which pro
 
 The simple nucleotide variation (SNV) data was obtained in the form of masked somatic mutations, derived from a MuTect2 Variant Aggregation and Masking workflow \cite{cibulskis2013sensitive}. 
 
-In this study, the analysis of the raw SNV data was based on the variant occurrence frequency of the genetic data. Variation occurence was mapped to every listed gene for all available cell samples. This was performed by mapping mutated genes to cell sample IDs in the raw SNV data, and accumulating the number of mutations for each respective cell sample.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/snvstats.png}
+    \noindent
+    \begin{minipage}[t]{.39\textwidth}
+    \raggedright
+        a) Accumulated gene mutations
+    \end{minipage}% 
+    \hspace{1cm}
+    \begin{minipage}[t]{.5\textwidth}
+        b) Variant classification distribution
+    \end{minipage}
+    \centering
+    \includegraphics[width=\textwidth]{img/snvstats2.png}
+    \noindent
+    \begin{minipage}[t]{.39\textwidth}
+    \raggedright
+        c) Fraction of somatic muations
+    \end{minipage}% 
+    \hspace{1cm}
+    \begin{minipage}[t]{.5\textwidth}
+        d) Variant distribution of top 10 mutated genes
+    \end{minipage}
+    \caption{a) Box plot of accumulated gene mutations for each cancer type. b) Stacked bar plot showing the distribution of variant classification for each cancer type. c) Bar plot showing the fraction of all somatic mutations. d) Stacked bar plot detailing the distribution of the top 10 mutated genes.}
+    \label{fig:snvstats}
+\end{figure}
+%Number of gene mutations per cancer class.
+
+
+
+%number of mutations per cancer class vs fraction mutated
+
+In this study, the analysis of the raw SNV data was based on the variant occurrence frequency of thke genetic data. Variation occurence was mapped to every listed gene for all available cell samples. This was performed by mapping mutated genes to cell sample IDs in the raw SNV data, and accumulating the number of mutations for each respective cell sample.
 
 \subsubsection{Dataset}
 
-$S \in \mathbb{Z}_{\geq 0}$
-In order to obtain variant occurrence frequency, the number of all mutations, for every cell sample, was recorded.
+After preprocessing the SNV data, the variant occurrence frequency was obtained for 20516 human genes for each cell mass sample. The variant occurrence frequency was recorded in matrix $S \in \{\mathbb{Z}_{\geq 0}\}^{20516 \; x \; m}$, where the 20516 rows coorespond to genes, and the m columns correspond to the m cell samples per gene. Accordingly, a field within matrix $S$ indicates the number of mutations observed for a cell on a given gene. 
 
 \section{Dimensionality Reduction}
 
+In the following, we describe the various forms of dimensionality reduction used to deal with the high dimensionality of the genomic data and the selection of relevant features. 
+
 \subsection{Stacked Denoising Autoencoder}
 
+A SDAE was used to acquire compressed feature vectors from all genomic data sources. A two layer SDAE with dimensions 1000, and 500 was trained using a designated training set. Optimal model parameters were selected based on model performance during 10-fold cross validation. Post training, a layer with reduced dimensionality and a low cross validation error was selected. The defined objective here was to acquire a reduced mapping that encodes the original data with minimal loss of meaningful patterns.
+
 \subsection{Deeply Connected Genes}
+The weights of the trained SDAE were used to extract the raw features most strongly connected to the reduced subspace for CNV, RNA-seq and miRNA-seq data sources. These features were extracted from the SDAE by computing the product of the weight matrix for each layer \cite{danaee2017deep}. 
+The product of the weights for each layer in the trained and optimally parametized SDAEs were observed to be highly normally distributed as shown in Figure \ref{fig:zscoreHist}. 
+
+\begin{figure}
+     \centering
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{img/zscoreCNV.png}
+         \caption{}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{img/zscoreRNA.png}
+         \caption{}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.3\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{img/zscoreMIRNA.png}
+         \caption{}
+     \end{subfigure}
+        \caption{Histogram of z-scores from dot product of SDAE weight matrices for a) CNV b) RNA-seq and c) miRNA-seq.}
+        \label{fig:zscoreHist}
+\end{figure}
+
+The most statistically significant features were identified by fitting the weight matrices to a normal distribution, and computing a p value to select features that match the preselected experimental dimensions.
 
 \subsection{Differential Expression}
+
+For the transcriptome expression data, deferentially expressed genes were identified, and utilized as features. The $log_{2}$(fold change) was computed between the median tumour cell mass expression and healthy cell mass expression. The most statistically significant features were identified by fitting the differential expression to a Guassian distribution and computinbg a two-tailed p-value. Features that match the preselected experimental dimensions were acquired by selected the top most significant deferentially expressed genes using the two-tailed p-values. 
+
+\begin{figure}
+     \centering
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{img/rnaDE.png}
+         \caption{}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{img/mirnaDE.png}
+         \caption{}
+     \end{subfigure}
+        \caption{Differential expression $log_2$(fold change) and Gaussian fit for a) RNA-seq and b) miRNA-seq.}
+        \label{fig:deHist}
+\end{figure}

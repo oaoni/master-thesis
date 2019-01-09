@@ -34,7 +34,7 @@ The linear combination is then transformed by applying a nonlinear activation fu
         \caption{Common Activation Functions, $\psi$}
         \label{fig:actfunc}
     \end{subfigure}
-    \caption{\ref{fig:mlp}) Structure of a feed forward MLP with three layers. \ref{fig:actfunc}) The output for Logistic, Tanh and ReLU activation functions for input value range [-4,4].}\label{fig:mlp_actfunc}
+    \caption{a) Structure of a feed forward MLP with three layers. b) The output for Logistic, Tanh and ReLU activation functions for input value range [-4,4].}\label{fig:mlp_actfunc}
 \end{figure}
 % Change the italics brackets to regular 
 % Add activation function to hidden layer 
@@ -89,7 +89,8 @@ Where $\alpha$, the learning rate, controls the size of steps made in the direct
 %Or a demonstration with a model neural network?
 
 %Deeper neural networks simply continue to stack these operations 
-
+\noindent
+Figure \ref{fig:backprop} illustrates the mechanism of a feedforward multilayer perceptron with an input layer $X_{mn}$, a hidden layer $a_{mj}^{(2)}$, and an output layer $\hat{y}_{mk}$. The input layer, considered the first activation $a_{mn}^{(1)}$, is used to form the first linear combination $z_{mf}^{(1)}$. In the hidden layer, a nonlinear activation function $\psi(z_{mj}^{(1)})$ is used to produce the hidden activations $a_{mj}^{(2)}$. In deeper networks, the preceding layers outputs are continually utilized in a series of linear combinations, following by nonlinear activation functions until the output layer is reached. At this point, the model predictions are compared to the true values using cost function $J(\hat{y_{mk}})$. In order to train the neural network, or minimize the cost function, the gradient of the cost function is computed to determine the direction of parameter space required to lower network error. The gradient of the cost function is computed efficiently propagating the error back through the network using the derivate chain rule. 
 
 
 %In Figure \ref{fig:actfunc}, we see that the tanh and logistic functions have sigmoidal shapes, mapping all inputs between $(-1,1)$ and $(0,1)$, respectively. In the output layer, this kind of behaviour makes them useful for classification problems. Though for nonlinear regression, a linear output activation would be beneficial. Accordingly, the choice of activation functions will largely depend on the desired task, but it is generally desired for the hidden units to have nonlinear activation functions. Deeper MLPs will contain many more hidden layers then displayed in Figure \ref{fig:mlp}, 

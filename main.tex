@@ -4,17 +4,63 @@
 \usepackage[utf8]{inputenc}
 \usepackage{style}
 
-
-
-\title{Multi-Platform Genomic and Clinical Data Fusion with Integrative Deep Learning (DRAFT)}
-\author{Olatunji Oni}
-\date{\today}
-
 \begin{document}
 
+%%%%%%%%%%% Half Title
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+\textsc{\Large MULTI-PLATFORM GENOMIC DATA FUSION WITH INTEGRATIVE DEEP LEARNING}
+\end{center}
+\vspace*{\fill}
+%%%%%%%%%%%%%%%%%%%%%
 
+\setcounter{page}{0}
+\clearpage
 
-\maketitle
+%%%%%%%%%%% Title page 
+\thispagestyle{empty}
+\begin{center}
+    \vfill
+    \textsc{\Large MULTI-PLATFORM GENOMIC DATA FUSION WITH INTEGRATIVE DEEP LEARNING}\\
+    \vfill
+    By Olatunji Oni, B.Sc. \\
+    \vfill
+    {\large \textit{A Thesis Submitted to the School of Graduate Studies in the Partial Fulfillment of the Requirements for the Degree Master of Science}}\\
+
+    \vfill
+    {\large McMaster University\, \copyright\, Copyright by Olatunji Oni\, \today}\\[4cm]
+\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+\begin{singlespace}
+    \noindent
+    McMaster University \\ 
+    Master of Science\, (\the\year) \\
+    Hamilton, Ontario (School of Computational Science and Engineering) \\[1.5cm]
+    TITLE: Multi-Platform Genomic Data Fusion with Integrative Deep Learning \\
+    AUTHOR: Olatunji Oni\,  %list previous degrees
+    (McMaster University)  \\
+    SUPERVISOR: Dr. Sanzheng Qiao\, \\ 
+    NUMBER OF PAGES: \pageref{lastoffront}, \pageref{LastPage}
+\end{singlespace}
+
+\clearpage
+%%%%%%%%%%%%%%%%% ABSTRACT
+\section*{\Huge Abstract} 
+\addcontentsline{toc}{section}{Abstract}
+ %Abstract goes here
+\clearpage
+
+%%%%%%%%%%%%% ACKNOWLEDGEMENTS
+\section*{\Huge Acknowledgments} 
+\addcontentsline{toc}{section}{Acknowledgments}
+ %Acknowledgements
+\clearpage
 
 % \begin{singlespace}
 % \end{singlespace}
@@ -24,6 +70,15 @@
     \listoftables
     \listoffigures
     \include{tex/01-glossary}
+    
+    \pagenumbering{arabic}
+    \pagestyle{fancy}
+    \fancyhead{}
+    \fancyfoot{}
+    \fancyhead[RE,LO]{McMaster University --- Comput. Sci. \& Engineering}
+    \fancyhead[LE,RO]{MSc Thesis --- Olatunji Oni}
+    \fancyfoot[CE,CO]{\thepage}
+    
 
 \mainmatter{}
     \include{./tex/04-background}
@@ -39,6 +94,6 @@
 \end{document}
 
 %TODO:
-%Make modifications to dGMU plot
-%Find my version of tf for 3.3
-%Expression patterns for miRNA and RNA in Section 4
+%Add official title page
+%Explain backprop figure
+%Explain what the percentage in the variant distribution figure is for
