@@ -155,7 +155,7 @@ A SDAE was used to acquire compressed feature vectors from all genomic data sour
 The weights of the trained SDAE were used to extract the raw features most strongly connected to the reduced subspace for CNV, RNA-seq and miRNA-seq data sources. These features were extracted from the SDAE by computing the product of the weight matrix for each layer \cite{danaee2017deep}. 
 The product of the weights for each layer in the trained and optimally parametized SDAEs were observed to be highly normally distributed as shown in Figure \ref{fig:zscoreHist}. 
 
-\begin{figure}
+\begin{figure}[h!]
      \centering
      \begin{subfigure}[b]{0.3\textwidth}
          \centering
@@ -184,7 +184,7 @@ The most statistically significant features were identified by fitting the weigh
 
 For the transcriptome expression data, deferentially expressed genes were identified, and utilized as features. The $log_{2}$(fold change) was computed between the median tumour cell mass expression and healthy cell mass expression. The most statistically significant features were identified by fitting the differential expression to a Guassian distribution and computinbg a two-tailed p-value. Features that match the preselected experimental dimensions were acquired by selected the top most significant deferentially expressed genes using the two-tailed p-values. 
 
-\begin{figure}
+\begin{figure}[h!]
      \centering
      \begin{subfigure}[b]{0.49\textwidth}
          \centering
