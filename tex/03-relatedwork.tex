@@ -2,8 +2,59 @@
 
 \section{Dimensionality Reduction}
 
+Multi-platform biomedical datasets present numerous challenges for traditional machine learning and statistical approaches. Biological data is often high-dimensional, noisy and sparse. High-throughput transcriptome sequencing and genome-wide genotyping arrays can produce tens of thousands to millions of features, making the identification of biomarkers a central issue in cancer research \cite{vaske2010inference}. Representation learning for regularized and data-driven feature identification has thus emerged as a critical component of the dimensionality reduction paradigm. Various unsupervised methods have been used for dimensionality reduction and classification of sequencing data. Techniques such as stacked denoising autoencoders (SDAEs) have been used to acquire low dimension non-linear feature sets from breast cancer RNA expression data \cite{teixeira2017learning}. Transformative autoencoders have achieved some success, but these techniques result in encodings that lack direct interpretability. Recently, various efforts have produced deeply connected genes using an SDAE designed to extract meaningful subsets of genes that are useful in informing the strategies of clinicians \cite{danaee2017deep,teixeira2017learning}.
+
 \section{Information Fusion}
 
+Given the complexity of biomedical systems, various strategies have been used to integrate diverse sources of biological information. Data integration methods generally rely on one of the following two strategies for combining information from multiple modalities. Feature fusion (early fusion) involves the concatenation of data sources into a feature-based table for the input into a classifier or predictive model. In decision fusion (late fusion) an independent model is designed for each modality in order to derive a classification or prediction. The outputs from the independent models are then combined to produce a consensus, typically derived by model averaging, taking a majority vote, learning gate parameters, or using Bayesian frameworks \cite{yang2010review}.
+
 \subsection{Mixture of Experts}
+A commonly used technique in neural network based information fusion involves the use of probabilistic gating functions to fuse the results of multiple subnetworks. In machine learning, this approach is referred to as mixture of experts (MoE). This method employs the use of individualized expert modules that are tailored for subsets of the training data. The gating network learns to determine how the experts are used for each input example. The learning scheme thus consists of learning the parameters for each expert, and learning the parameters of the gate function.
+
+
 
 \subsection{Gated Multimodal Units}
+
+More recently, several strategies have been successfully employed to increase the accuracy of joint model classifiers. These methods avoid developing individual models for each modality or directly combining data sources, but rather incorporate data integration into the architecture of the classifier or predictive model. In machine learning, gated neural networks have shown superior classification performance over traditional fusion methods \cite{arevalo2017gated,bai2018integrating}. Recent work has shown that neural networks with multiplicative gates can be trained to relate inputs, their fusion, and their classification into a single model. Accordingly, these models are uniquely equipped for learning fusion transformation by governing how each modality contributes to the activation of the network \cite{arevalo2017gated}. 
+
+\section{Model Interpretation}
+
+%What is model interpretation
+%\
+
+The ability to interpret the behaviour of a machine learning model can provide valuable insight into the internal logic of the classifier and the structural importance of the features. As the application of predictive systems are integrated deeper into the industrial and scientific domains, it is becoming increasingly important to be able to explain the basis of their decisions. Certain models benefit from an inherent transparency in interpretation. These techniques provide a direct link to the features used to make a prediction. Unfortunately, transparent models such as decision trees, sparse linear models and rule based systems have inferior predictive performance compared to more complex model abstractions such as random forest classifiers, support vector machines and deep neural networks. This has encouraged/compelled the development of techniques to understand the internal logic of complex predictive models. 
+
+Model agnostic interpretation methods are used to explain the behaviour of models where the internal logic of the system is not directly available for inspection. Model agnostic methods are flexible in that they can derive explanations from any underlying model. A widely utilized technique to perform model agnostic interpretation employs the use of a global surrogate model. Global surrogates approximate the behaviour of a complex model by using an interpretable model \cite{craven1996extracting}. Interpretable models, such as generalized regression models or decision trees, are trained to approximate the predictions of an underlying model, and global explanations are derived from analyzing the surrogate. Another technique used is permutation feature sensitivity analysis. These methods employ permuting the input and observing the variation to the model output. Local sensitivity analysis allows the determination of the specific output variance caused by permuting the elements of the input for a training example. Recently, a combination of these approaches were developed to extend the utility of surrogate models with sensitivity analysis, producing an algorithm referred to as local interpretable model-agnostic explanations (LIME) \cite{ribeiro2016should}. LIME generates interpretable explanations by approximating the prediction of any classifier locally for a given training example. Local explanations of the underlying model are captured by training an interpretable model on pertubations of the input data. LIME generates a sample set of perturbed examples in the neighborhood of the local instance and uses an interpretable model to draw a decision boundary. Explanations are derived from analyzing the paramters of the decision boundary. Formally, a local surrogate model $g$ is defined through the following expression:
+
+\begin{equation}
+    \min_{g \in G} J(f,g,\mu_{x_i}) + \lambda(g),
+    \label{eq:lime}
+\end{equation}
+
+\noindent
+where $J(f,g,\mu_{x_i})$ is a cost function that measures how closely the surrogate model $g$ approximates the underlying model $f$ while keeping the model complexity $\lambda(g)$ low. The proximity measure $\mu_{x_i}$ determines the size of the neighborhood around an example $x_i$. For a training example, the probability that a classifier maps the input to a class label $k$ is denoted by $y_{k} = f(x_i)$. Accordingly, LIME works to optimize the expression in (\ref{eq:lime}) to interpret why $f$ maps feature vector $x_i$ to a class label $k$.
+
+In order to produce an explanation, LIME first builds a dataset of perturbed instances $\Tilde{x}$ by adding noise $Z_i$ to the mass center of the training data. The noise, $Z_i \sim N(0,\sigma^2)$, is drawn from a zero-mean normal distribution with variance $\sigma^2$. The underlying model can then be used to generate a sample set that is weighted by their proximity to the selected instance. The surrogate model can then be trained using a cost function of the mean squared error:
+
+\begin{equation}
+    J(f,g,\mu_{x_i}) = \sum_i \mu_{x_i}(f(\Tilde{x_i}) - g(\Tilde{x_i}'))^{2},
+\end{equation}
+
+\noindent
+where $\Tilde{x}'$ is the interpretable representation of the perturbed data point. The learned weights of the trained model $g$ form an $n$ dimensional vector where each weight corresponds to a feature in training vector $x_i$. The magnitude of the $n$-th weight, $|w_n|$, defines the importance of that features on the prediction. The feature effect is defined by the polarity of the weight, where $w_n > 0$ or $w_n < 0$ suggests that the feature has a positive or negative influence on the prediction of the given class, respectively.
+
+%
+
+
+%simonyan et al ICLR 2014 saliency
+%When decribing methods, structure and how they work,
+%use present tense and make general statements. For
+%example: Our experiments have shown that ... (general
+%statements to support the methods, no specifics such as numbers).
+%When reporting experimental results, use past tense
+%(set up, running time, performance, ...) and give specifics.
+%Basically, that is what you did and how the implementations
+%worked in the experiments.
+
+%That can avoid the mixture of tenses.
+

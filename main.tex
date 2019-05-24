@@ -53,7 +53,7 @@
 %%%%%%%%%%%%%%%%% ABSTRACT
 \section*{\Huge Abstract} 
 \addcontentsline{toc}{section}{Abstract}
- %Abstract goes here
+    \input{./tex/abstract}
 \clearpage
 
 %%%%%%%%%%%%% ACKNOWLEDGEMENTS
@@ -69,8 +69,7 @@
     \tableofcontents
     \listoftables
     \listoffigures
-    \include{tex/glossary}
-    
+    \include{./tex/glossary}  
     \pagenumbering{arabic}
     \pagestyle{fancy}
     \fancyhead{}
@@ -79,10 +78,6 @@
     \fancyhead[LE,RO]{MSc Thesis --- Olatunji Oni}
     \fancyfoot[CE,CO]{\thepage}
     
-    \include{tex/abstract.tex}
-    \include{tex/acknowledge.tex}
-    \include{tex/gloassary.tex}
-    
 \mainmatter{}
     \include{./tex/01-introduction}
     \include{./tex/02-background}
@@ -90,16 +85,15 @@
     \include{./tex/04-deepgmu}
     \include{./tex/05-materials}
     \include{./tex/06-results}
+    \include{./tex/07-conclusion}
     
 \backmatter{}
     \printbibliography
 
 
-
 \end{document}
 
 %TODO:
-%Add official title page
 %Explain backprop figure
 %Explain what the percentage in the variant distribution figure is for
 %Maybe add section to Summary of experimental dataset table in experimental results
